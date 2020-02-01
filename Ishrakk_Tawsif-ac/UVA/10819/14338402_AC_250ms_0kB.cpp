@@ -1,0 +1,93 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int dx[8]={0,0,1,-1,1,1,-1,-1};
+int dy[8]={1,-1,0,0,1,-1,1,-1};
+
+/*#pragma comment(linker,"/stack:200000000")
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native")*/
+#define sf(nn)                  scanf ("%d", &nn)
+#define sfll(nn)                scanf ("%lld", &nn)
+#define pf                      printf
+#define casepf(nn)              printf ("Case %d: ",nn)
+#define out(nn)                 cout <<nn <<endl
+#define loop(var,start,till)    for(int var=start; var<till; var++)
+#define loop1(var,start,till)   for(int var=start; var<=till; var++)
+#define pb                      push_back
+#define mem(a,b)                memset(a,b,sizeof(a))
+#define mp                      make_pair
+#define ll                      long long int
+#define inf                     2e9
+#define llinf                   2e18
+#define READ(f)                 freopen(f,"r",stdin)
+#define WRITE(f)                freopen(f,"w",stdout)
+#define all(a)                  (a.begin(),a.end())
+#define Unique_(a)              sort(all(a));a.erase(unique(all(a)),a.end())
+#define mx                      100005
+#define mod                     7901
+#define left(n)                 (n<<1)
+#define right(n)                ((n<<1) + 1)
+#define fast                    ios_base :: sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define PI                      acos(-1)
+#define ull                     unsigned long long
+#define eps                     .000000001
+
+template <typename T> inline T BigMod(T A,T B){T ret = 1;while(B){if(B & 1) ret = (ret * A)%mod;A = (A * A)%mod;B = B >> 1;}return ret;}
+template <typename T> inline T InvMod (T A,T M = mod){return BigMod(A,M-2);}
+string tostring(ll res){string curstr="";while(res!=0){ll temp=(res%10);curstr+=((char)temp+'0');res/=10;}reverse(curstr.begin(),curstr.end());return curstr;}
+ll toint(string ss){ll inss = 0;for(int i=0;i<ss.size();i++){inss=(inss * 10)+((int)(ss[i]-'0'));}return inss;}
+
+
+/* ...........................................................................................................*/
+
+int n,m,sum,dp[101][10001],cost[101],val[101];
+
+int call(int pos,int tot)
+{
+    if(tot>m && tot<1800) return -2e9;
+    if(tot>m+200) return -2e9;
+    if(pos>=n)
+    {
+        if(tot>m && tot<=2000) return -2e9;
+        return 0;
+    }
+
+    if(dp[pos][tot] != -1) return dp[pos][tot];
+
+    int ans1,ans2;
+    ans1 = ans2 = -2e9;
+
+    ans1 = call(pos+1,tot+cost[pos]) + val[pos];
+    ans2 = call(pos+1,tot);
+
+    return dp[pos][tot] = max(ans1,ans2);
+}
+
+int main()
+{
+
+    #ifndef ONLINE_JUDGE
+    	clock_t TStart = clock();
+        //READ("in.txt");
+        //WRITE("out.txt");
+    #endif
+
+
+    while(scanf("%d %d", &m,&n) == 2)
+    {
+        for(int i=0; i<n; i++)
+        {
+            scanf("%d %d", &cost[i],&val[i]);
+        }
+        //if(m>2000) m += 200;
+        mem(dp,-1);
+        pf("%d\n", call(0,0));
+    }
+
+    #ifndef ONLINE_JUDGE
+    	printf("\n>>Time taken: %.10fs\n", (double) (clock() - TStart) / CLOCKS_PER_SEC);
+	#endif
+
+    return 0;
+}
